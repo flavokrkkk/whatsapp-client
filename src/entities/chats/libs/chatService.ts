@@ -1,4 +1,5 @@
 import { ICheckContactResponse } from "@/entities/auth/types/types";
+import tokenService from "@/entities/token/libs/tokenService";
 import { axiosAuth } from "@/shared/api/baseQuery";
 
 class ChatService {
@@ -16,8 +17,9 @@ class ChatService {
   public async checkWhatsapp(request: {
     phoneNumber: string;
   }): Promise<ICheckContactResponse> {
+    const token = tokenService.getAccessToken();
     const { data } = await axiosAuth.post<ICheckContactResponse>(
-      "/waInstance1103182509/checkWhatsapp/f7f5a9d2cda24a338dbea3c7c37a4312da5c82b23bb34fd1ad",
+      `/checkWhatsapp/${token}`,
       request
     );
     return data;

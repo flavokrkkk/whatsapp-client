@@ -27,7 +27,7 @@ const ChatContent: FC<IChatContent> = ({ selectContact }) => {
   };
   return (
     <div className="flex-1 flex flex-col h-full">
-      <div className="p-4 border-b border-gray-200 flex items-center space-x-3">
+      <div className="p-[10px] border-b border-gray-200 flex items-center space-x-3">
         <div className="w-10 h-10 flex items-center justify-center">
           <img src={selectContact?.avatar} className="rounded-full" />
         </div>
@@ -36,11 +36,19 @@ const ChatContent: FC<IChatContent> = ({ selectContact }) => {
       <div className="flex-1 p-4 overflow-y-auto">
         <div className="flex flex-col space-y-2">
           {[...selectContact.messages].reverse().map((message) => (
-            <div
-              key={message.id}
-              className={`p-3 rounded-lg max-w-[70%] bg-green-100 self-end`}
-            >
-              {message.text}
+            <div key={message.id} className="w-full flex flex-col space-y-2">
+              <div
+                key={message.id}
+                className={`p-3 rounded-lg max-w-[70%] bg-green-100 self-start`}
+              >
+                {message.quotedMessage}
+              </div>
+              <div
+                key={message.id}
+                className={`p-3 rounded-lg max-w-[70%] bg-green-100 self-end`}
+              >
+                {message.extendedMessage}
+              </div>
             </div>
           ))}
         </div>

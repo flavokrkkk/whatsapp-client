@@ -39,19 +39,23 @@ export const messageSlice = createSliceWithThunks({
               return await getContactInfo({ chatId: el.chatId });
             })
           );
+
           return {
             allMessage: data,
             allDialog: allDialog.map((dial) => ({
               ...dial,
               lastMessage:
                 uniqueDialog.find((el) => el.chatId === dial.chatId)
-                  ?.extendedTextMessage.text ?? "",
+                  ?.extendedTextMessage?.text ?? "",
               messages: data
                 .filter((el) => el.chatId === dial.chatId)
                 .reduce((acc: IContactInfoResponse["messages"], el, ids) => {
+                  console.log(el);
                   const message = {
                     id: ids + 1,
-                    text: el.textMessage,
+                    quotedMessage: el?.quotedMessage?.textMessage ?? "",
+                    extendedMessage:
+                      el?.extendedTextMessage?.text ?? el?.textMessage ?? "",
                   };
                   acc.push(message);
                   return acc;
@@ -64,8 +68,12 @@ export const messageSlice = createSliceWithThunks({
       },
       {
         fulfilled: (state, { payload }) => {
+          console.log(payload, "payload");
           state.allMessages = payload.allMessage;
           state.dialogsUnique = payload.allDialog;
+        },
+        rejected: (state, { payload }) => {
+          console.log(payload, "error");
         },
       }
     ),

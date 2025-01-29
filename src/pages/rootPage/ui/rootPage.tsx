@@ -1,15 +1,11 @@
+import { useRoot } from "@/features/auth/hooks/useRoot";
 import CreateChat from "@/features/chats/ui/createChat";
 import ContactsList from "@/features/contacts/ui/contactsList";
-import { useActions } from "@/shared/hooks/useActions";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
 const RootPage = () => {
-  const { setAllAsyncMessages } = useActions();
-
-  useEffect(() => {
-    setAllAsyncMessages();
-  }, []);
+  const { currentContact } = useRoot();
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -18,11 +14,13 @@ const RootPage = () => {
         <ContactsList />
         <div className="p-4 border-t border-gray-200">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-              <span className="text-gray-600">U</span>
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img src={currentContact?.avatar} className="rounded-full" />
             </div>
             <div>
-              <p className="text-gray-800 font-medium">Ваше имя</p>
+              <p className="text-gray-800 font-medium">
+                {currentContact?.phone}
+              </p>
               <p className="text-sm text-gray-500">В сети</p>
             </div>
           </div>

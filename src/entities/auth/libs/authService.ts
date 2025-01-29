@@ -1,5 +1,5 @@
-import { axiosAuth } from "@/shared/api/baseQuery";
-import { IAuthRequest } from "../types/types";
+import { axiosNoAuth } from "@/shared/api/baseQuery";
+import { IAuthRequest, IAuthResponse } from "../types/types";
 
 class AuthService {
   private static instance: AuthService;
@@ -13,12 +13,15 @@ class AuthService {
     return AuthService.instance;
   }
 
-  public async authorization({ apiTokenInstance, idInstance }: IAuthRequest) {
-    const { data } = await axiosAuth.get(
-      `/waInstance${idInstance}/getSettings/${apiTokenInstance}`
+  public async authorization({
+    apiTokenInstance,
+    idInstance,
+  }: IAuthRequest): Promise<IAuthResponse> {
+    const { data } = await axiosNoAuth.get<IAuthResponse>(
+      `/waInstance${idInstance}/getWaSettings/${apiTokenInstance}`
     );
     return data;
   }
 }
 
-export const instance = AuthService.getInstance();
+export const { authorization } = AuthService.getInstance();

@@ -9,13 +9,14 @@ import { useNavigate } from "react-router-dom";
 const ChatDetailPage = () => {
   const selectContact = useAppSelector(contactsSelectors.selectContact);
   const navigate = useNavigate();
+  console.log(selectContact);
 
   useEffect(() => {
     if (!selectContact) {
       navigate(ERouteNames.CHAT_ROUTE);
     }
   }, []);
-
+  console.log(selectContact?.messages);
   return selectContact ? (
     <ChatContent selectContact={selectContact} />
   ) : (

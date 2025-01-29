@@ -1,3 +1,4 @@
+import tokenService from "@/entities/token/libs/tokenService";
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -9,7 +10,7 @@ import { RequestOptions } from "https";
 export class AxiosClient {
   private baseQueryV1Instance: AxiosInstance;
 
-  constructor(baseURL: string) {
+  constructor(baseURL: string, withAuth = false) {
     const config: AxiosRequestConfig = {
       baseURL,
       headers: {
@@ -17,7 +18,18 @@ export class AxiosClient {
       },
     };
 
-    this.baseQueryV1Instance = axios.create(config);
+    const authConfig: AxiosRequestConfig = {
+      baseURL: `${baseURL}/waInstance${tokenService.getAccessId()}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    if (withAuth) {
+      this.baseQueryV1Instance = axios.create(authConfig);
+    } else {
+      this.baseQueryV1Instance = axios.create(config);
+    }
   }
 
   public getInstance() {
@@ -104,5 +116,11 @@ export class AxiosClient {
     }
   }
 }
-console.log(import.meta.env.VITE_BASE_API_URL);
-export const axiosAuth = new AxiosClient(import.meta.env.VITE_BASE_API_URL);
+export const axiosAuth = new AxiosClient(
+  import.meta.env.VITE_BASE_API_URL,
+  true
+);
+export const axiosNoAuth = new AxiosClient(
+  import.meta.env.VITE_BASE_API_URL,
+  false
+);

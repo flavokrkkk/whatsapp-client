@@ -1,3 +1,4 @@
+import { ViewerProvider } from "@/entities/viewer/model/context/provider";
 import { routes } from "@/pages/routes/routes";
 import { queryClient } from "@/shared/api/queryClient";
 import { store } from "@/shared/store/store";
@@ -8,9 +9,11 @@ import { RouterProvider } from "react-router";
 const Providers = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <RouterProvider router={routes} />
-      </Provider>
+      <ViewerProvider>
+        <Provider store={store}>
+          <RouterProvider router={routes} />
+        </Provider>
+      </ViewerProvider>
     </QueryClientProvider>
   );
 };

@@ -11,13 +11,27 @@ export interface IAllMessageResponse {
     text: string;
     title: string;
   };
-  idMessage: string;
-  isDeleted: boolean;
-  isEdited: boolean;
-  sendByApi: boolean;
-  statusMessage: string;
-  textMessage: string;
-  timestamp: number;
-  type: string;
-  typeMessage: string;
+  quotedMessage: {
+    participant: string;
+    deletedMessageId: string;
+    editedMessageId: string;
+    extendedTextMessage: {
+      text: string;
+      description: string;
+      title: string;
+      previewType: string;
+      jpegThumbnail: string;
+    };
+    idMessage: string;
+    isDeleted: boolean;
+    isEdited: boolean;
+    stanzaId: string;
+    sendByApi: boolean;
+    statusMessage: string;
+    textMessage?: string;
+    timestamp: number;
+    type: string;
+    typeMessage: string;
+  };
+  textMessage?: string;
 }

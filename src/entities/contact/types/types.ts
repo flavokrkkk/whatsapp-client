@@ -15,5 +15,9 @@ export interface IContactInfoResponse {
   muteExpiration: null;
   name: string;
   products: [];
-  messages: { id: number; text: string }[];
+  messages: {
+    id: number;
+    quotedMessage: string;
+    extendedMessage: string;
+  }[];
 }
